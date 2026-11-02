@@ -317,6 +317,10 @@ canvas{display:block;width:100%;height:100%;touch-action:none;}
   .learn-card{padding-bottom:70px!important;}
 }
 
+/* Bandeiras do topo do menu: encolhem para caberem na largura do telemóvel */
+.modal-flags-row{gap:4px;padding:0 6px;}
+.modal-flags-row canvas{width:clamp(30px,10.5vw,54px)!important;height:auto!important;flex-shrink:1;min-width:0;}
+
 /* Telemóvel em horizontal (pouca altura): robô mais pequeno e balão compacto, fora do cartão */
 @media(max-height:520px) and (orientation:landscape){
   .vb-free{width:64px!important;right:10px!important;bottom:8px!important;}
@@ -3731,7 +3735,7 @@ document.getElementById('normBtnS')?.addEventListener('click',()=>setDiff('norma
 document.getElementById('hardBtnS')?.addEventListener('click',()=>setDiff('hard'));
 document.getElementById('startBtn').addEventListener('click',startGame);
 
-document.addEventListener('touchmove',function(e){e.preventDefault();},{passive:false});
+document.addEventListener('touchmove',function(e){if(e.target&&e.target.closest&&e.target.closest('.ovl'))return;e.preventDefault();},{passive:false}); // deixa deslizar dentro das janelas (menu, aprende, pausa, fim)
 Promise.all([Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,2500))]),Promise.race([bgLoaded,new Promise(r=>setTimeout(r,2500))])]).then(()=>{
   const ls=document.getElementById('loadscreen');if(ls){ls.style.transition='opacity 0.5s';ls.style.opacity='0';setTimeout(()=>ls.remove(),520);}
   try{resize();computeDims();startIdleScene();}catch(err){console.error(err);}
